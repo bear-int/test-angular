@@ -1,0 +1,48 @@
+sudo: required
+language: node_js
+  - "9"
+dist: trusty
+branches:
+  only:
+  - master
+
+stages:
+  # - name: Create snapshot
+  # - name: Start migration
+    - name: Deploy 
+
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
+  - node_modules
+
+before_install:
+  - export TZ=Europe/Kiev
+  - npm install -g npm@latest
+  - npm install -g @angular/cli
+  - python2 -c 'import os,sys,fcntl; flags = fcntl.fcntl(sys.stdout, fcntl.F_GETFL); fcntl.fcntl(sys.stdout, fcntl.F_SETFL, flags&~os.O_NONBLOCK);'
+
+  - gcloud version || true
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash >/dev/null; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components update kubectl
+
+addons:
+  chrome: stable
+
+jobs:
+  fast_finish: true
+  include:
+    # - stage: Create snapshot
+    #   if: "(branch != development AND type = push AND branch != stage)"
+    #   script: ./snapshot.sh
+    # - stage: Start migration
+    #   if: "(branch != development AND type = push AND branch != stage)"
+    #   script: npm run migration
+    #   after_failure: ./restore.sh
+    - stage: Deploy
+      if: "(branch != development AND type = push AND branch != stage)"
+      script: ./deploy.sh
+      
