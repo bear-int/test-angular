@@ -2,7 +2,7 @@
 
 PROJECT_NAME=git-repo-manager
 ZONE=us-central1-a
-DOCKER_IMAGE=angular-intro
+DOCKER_IMAGE=test-angular
 CLUSTER1=angular-intro
 DATE_TIME=$(date "+%Y%m%d-%H%M%S")
 
@@ -25,4 +25,3 @@ echo "Create instance"
    --zone $ZONE_EN1B \
    --container-image=gcr.io/$PROJECT_NAME/$DOCKER_IMAGE:latest \
    --machine-type=g1-small
-
