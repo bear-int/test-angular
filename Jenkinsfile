@@ -5,7 +5,6 @@ pipeline {
         ZONE = 
         DOCKER_IMAGE= 'test-angular'
         LOCATION = 'CLUSTER-LOCATION'
-        DATE_TIME = $(date "+%Y%m%d-%H%M%S")
         GOOGLE_SERVICE_ACCOUNT_KEY = credentals('vocal-framework-271111');
     }
     stages {
@@ -17,7 +16,7 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    app = docker.build("gcr.io/$PROJECT_ID/$DOCKER_IMAGE:$DATE_TIME")
+                    app = docker.build("gcr.io/$PROJECT_ID/$DOCKER_IMAGE:latest")
                 }
             }
         }
@@ -26,7 +25,6 @@ pipeline {
                 script {
                     docker.withRegistry('https://gcr.io', 'gcr:vocal-framework-271111') {
                             myapp.push("latest")
-                            myapp.push("$DATE_TIME")
                     }
                 }
             }
