@@ -3,7 +3,7 @@ pipeline {
     environment {
         PROJECT_ID = 'vocal-framework-271111'
         ZONE = 
-        DOCKER_IMAGE= 'test-angular'
+        DOCKER_IMAGE = 'test-angular'
         LOCATION = 'CLUSTER-LOCATION'
         GOOGLE_SERVICE_ACCOUNT_KEY = credentals('vocal-framework-271111');
     }
